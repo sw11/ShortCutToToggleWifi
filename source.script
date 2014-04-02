@@ -1,0 +1,17 @@
+-- note this assumes your wireless interface is en0
+-- get the correct interface from the menu Apple->About This Mac->More Info...->System Report...->Network->Wi-Fi or from terminal using ifconfig -a
+
+try
+	-- en0 for wifi
+	set makiaeawirelessstatus to do shell script "networksetup -getairportpower en0"
+on error
+   display dialog "The script did not work as intended, please check the networksetup command (in terminal) "networksetup -getairportpower en0" works on your system. Make sure en0 is the wifi interface and it should show "Wi-Fi Power (en0): On".Open applescript in applescript editor for more details." buttons {"kthxbai"}
+end try
+
+if makiaeawirelessstatus is "Wi-Fi Power (en0): On" then
+   -- disable wifi
+   do shell script "networksetup -setairportpower en0 off"
+else
+   -- enable wifi
+   do shell script "networksetup -setairportpower en0 on"
+end if
